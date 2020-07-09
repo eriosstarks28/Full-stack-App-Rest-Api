@@ -6,7 +6,7 @@ export default class CourseDetail extends Component {
   state = {
     course: [],
     user: [],
-    materials: [],
+    
   };
 
 
