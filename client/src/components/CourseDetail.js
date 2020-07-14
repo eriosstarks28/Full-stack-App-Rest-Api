@@ -12,7 +12,7 @@ export default class CourseDetail extends Component {
     const { context } = this.props;
     const { id } = this.props.match.params;
 
-    //Grab each course using the data.js async function getCourse() and set each variable to be used in the form below
+    //Grab each course using async function getCourse() and set the state
     context.data.getCourse(id).then((res) => {
       this.setState({
         course: res,
@@ -23,7 +23,7 @@ export default class CourseDetail extends Component {
     });
   }
 
-  //Delete function only avaliableto authorized users
+  //Delete function only avaliable to authorized users removes course from database 
   delete = () => {
     if (this.props.context.authenticatedUser) {
       const { password, emailAddress } = this.props.context.authenticatedUser;
