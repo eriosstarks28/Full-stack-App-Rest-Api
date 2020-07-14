@@ -4,36 +4,37 @@ import Form from "./Form";
 
 export default class UpdateCourse extends Component {
   state = {
-    author: [],
     courseId: "",
     title: "",
     description: "",
-    estimatedTime: "",
     materialsNeeded: "",
+    estimatedTime: "",
     userId: "",
+    author: [],
     errors: [],
   };
 
   componentDidMount() {
     const { context } = this.props;
 
+    // request the correct course using the id param and sets the state
+
     context.data
       .getCourse(this.props.match.params.id)
       .then((course) => {
         if (course) {
           this.setState({
+            userId: course.userId,
             courseId: course.id,
-            author: course.user,
             title: course.title,
+            author: course.user,
             description: course.description,
             estimatedTime: course.estimatedTime,
             materialsNeeded: course.materialsNeeded,
-            userId: course.userId,
           });
         }
       })
       .catch((err) => {
-       
         console.log(err);
         this.props.history.push("/error");
       });
@@ -41,10 +42,10 @@ export default class UpdateCourse extends Component {
 
   render() {
     const {
-      author,
       title,
       description,
       estimatedTime,
+      author,
       materialsNeeded,
       errors,
     } = this.state;
@@ -129,7 +130,7 @@ export default class UpdateCourse extends Component {
       </div>
     );
   }
-  
+
   change = (event) => {
     const name = event.target.name;
     const value = event.target.value;
@@ -141,7 +142,6 @@ export default class UpdateCourse extends Component {
     });
   };
 
-  
   submit = () => {
     const { context } = this.props;
 
@@ -162,16 +162,16 @@ export default class UpdateCourse extends Component {
 
     const course = {
       courseId,
+      userId,
       title,
       description,
       estimatedTime,
       materialsNeeded,
-      userId,
       errors,
     };
 
     context.data
-      .updateCourse(courseId, course, emailAddress, password) 
+      .updateCourse(courseId, course, emailAddress, password)
       .then((errors) => {
         if (errors.length) {
           this.setState({ errors });
@@ -185,7 +185,7 @@ export default class UpdateCourse extends Component {
         this.props.history.push("/error");
       });
   };
-  
+
   cancel = () => {
     const courseId = this.props.match.params.id;
     const { from } = this.props.location.state || {
