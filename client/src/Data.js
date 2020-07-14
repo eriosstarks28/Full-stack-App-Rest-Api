@@ -34,7 +34,7 @@ export default class Data {
     const response = await this.api("/users", "POST", user);
     if (response.status === 201) {
       return [];
-    } else if (response.status === 400 || response.status === 405) {
+    } else if (response.status === 400 || response.status === 405 ) {
       return response.json().then((data) => {
         return data.errors;
       });
@@ -69,26 +69,18 @@ export default class Data {
   }
 
   async getUser(emailAddress, password) {
-    const response = await this.api(`/users`, "GET", null, true, {
-      emailAddress,
-      password,
-    });
+    const response = await this.api(`/users`, 'GET', null, true, { emailAddress, password });
     if (response.status === 200) {
-      return response.json().then((data) => {
-        data.status = 200;
-        return data;
-      });
-    } else if (response.status === 401) {
-      return response.json().then((data) => {
-        data.status = 401;
-        console.log(data);
-        return data;
-      });
-    } else {
+      return response.json().then(data => data);
+    }
+    else if (response.status === 401) {
+      return null;
+    }
+    else {
       throw new Error();
     }
   }
-
+  
   async deleteCourse(courseId, emailAddress, password) {
     const response = await this.api(
       `/courses/${courseId}`,

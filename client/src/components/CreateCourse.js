@@ -81,6 +81,7 @@ export default class CreateCourse extends Component {
     )
   }
 
+// when called provides the authenticated users email and password 
 
   newCourse = (event) => {
     event.preventDefault();
@@ -102,7 +103,7 @@ export default class CreateCourse extends Component {
       estimatedTime,
       materialsNeeded,
     }
-
+//creates course passing course email and password perams 
     context.data.createCourse(course, emailAddress, password)
     .then(errors => {
       if (errors.errors) {

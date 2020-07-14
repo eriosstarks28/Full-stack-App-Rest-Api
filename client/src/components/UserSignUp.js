@@ -91,6 +91,7 @@ export default class UserSignUp extends Component {
       </div>
     );
   }
+  
   change = (event) => {
     const name = event.target.name;
     const value = event.target.value;
