@@ -6,20 +6,13 @@ export default class CourseDetail extends Component {
   state = {
     course: [],
     user: [],
-    
   };
-
-
 
   componentDidMount() {
     const { context } = this.props;
     const { id } = this.props.match.params;
-    console.log(id);
-    console.log(context.data);
-    console.log(context.authenticatedUser);
 
-
-//Grab each course using the data.js async function getCourse() and set each variable to be used in the form below
+    //Grab each course using the data.js async function getCourse() and set each variable to be used in the form below
     context.data.getCourse(id).then((res) => {
       this.setState({
         course: res,
@@ -30,7 +23,7 @@ export default class CourseDetail extends Component {
     });
   }
 
-  //Delete function only avaliableto authorized users 
+  //Delete function only avaliableto authorized users
   delete = () => {
     if (this.props.context.authenticatedUser) {
       const { password, emailAddress } = this.props.context.authenticatedUser;
@@ -65,10 +58,7 @@ export default class CourseDetail extends Component {
                       >
                         Update Course
                       </Link>
-                      <button
-                        className="button"
-                        onClick={() => this.delete()}
-                      >
+                      <button className="button" onClick={() => this.delete()}>
                         Delete Course
                       </button>
                     </React.Fragment>
