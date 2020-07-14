@@ -8,17 +8,18 @@ export default class Header extends React.PureComponent {
     return (
       <div className="header">
         <div className="bounds">
-          <h1 className="header--logo">MyAuth</h1>
-          <Link className="Button" to="/">Home</Link>
+          <h1 className="header--logo">My FullStack API </h1>
+          
           <nav>
             {authUser ? (
               <React.Fragment>
                 <span>Welcome, {authUser.firstName}!</span>
+                
                 <Link to="/signout">Sign Out</Link>
               </React.Fragment>
             ) : (
               <React.Fragment>
-                
+                <Link className="Button" to="/">Home</Link>
                 <Link className="signup" to="/signup">Sign Up</Link>
                 <Link className="signin" to="/signin">Sign In</Link>
               </React.Fragment>

@@ -4,13 +4,13 @@ import Form from './Form';
 
 export default class UserSignIn extends Component {
   state = {
-    username: '',
+    emailAdress: '',
     password: '',
     errors: [],
   };
 
   render() {
-    const { username, password, errors } = this.state;
+    const { emailAdress, password, errors } = this.state;
 
     return (
       <div className="bounds">
@@ -24,12 +24,12 @@ export default class UserSignIn extends Component {
             elements={() => (
               <React.Fragment>
                 <input
-                  id="username"
-                  name="username"
+                  id="emailAdress"
+                  name="emailAdress"
                   type="text"
-                  value={username}
+                  value={emailAdress}
                   onChange={this.change}
-                  placeholder="User Name"
+                  placeholder="Email "
                 />
                 <input
                   id="password"
@@ -67,10 +67,10 @@ export default class UserSignIn extends Component {
     const { from } = this.props.location.state || {
       from: { pathname: '/' },
     };
-    const { username, password } = this.state;
+    const { emailAdress, password } = this.state;
 
     context.actions
-      .signIn(username, password)
+      .signIn(emailAdress, password)
       .then((user) => {
         if (user === null) {
           this.setState(() => {

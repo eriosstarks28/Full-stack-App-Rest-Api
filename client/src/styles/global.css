@@ -207,7 +207,7 @@ body {
 
 /* line 13, ../sass/global.sass */
 .header {
-  background: #57496e;
+  background: #2e3e86;
   padding: 20px 0;
   margin-bottom: 30px;
 }
@@ -282,7 +282,7 @@ h1 {
 
 /* line 61, ../sass/global.sass */
 a {
-  color: #7c689b;
+  color: #2e3e86;
   cursor: pointer;
   text-decoration: none;
   -webkit-transition: color 0.2s;
@@ -339,7 +339,7 @@ p {
 
 /* line 102, ../sass/global.sass */
 .course--module {
-  background: #7c689b;
+  background: #2e3e86;
   border-radius: 8px;
   padding: 30px;
   margin-bottom: 30px;
@@ -439,7 +439,7 @@ p {
 /* line 171, ../sass/global.sass */
 .course--header p {
   font-size: 18px;
-  color: #b1a5c4;
+  color: #1a1f5e;
   font-weight: 100;
 }
 /* line 176, ../sass/global.sass */
@@ -623,7 +623,7 @@ textarea:-ms-input-placeholder {
 }
 /* line 485, ../sass/global.sass */
 textarea:focus {
-  border-color: #7c689b;
+  border-color: #0b105e;
 }
 
 /* line 488, ../sass/global.sass */
@@ -678,7 +678,7 @@ input:focus {
 
 /* line 507, ../sass/global.sass */
 .button {
-  background: #7c689b;
+  background: #0b105e;
   color: #fff;
   font-family: "Work Sans", sans-serif;
   font-size: 18px;
@@ -706,7 +706,7 @@ input:focus {
 
 /* line 525, ../sass/global.sass */
 .button-secondary {
-  color: #7c689b;
+  color: #272e8d;
   background: none;
   box-shadow: 0 0 0 2px #7c689b inset;
   -webkit-transition: box-shadow 0.2s, color 0.2s;
@@ -717,7 +717,7 @@ input:focus {
 }
 /* line 530, ../sass/global.sass */
 .button-secondary:hover {
-  color: #63537d;
+  color: #424275;
   box-shadow: 0 0 0 2px #63537d inset;
 }
 
@@ -743,7 +743,7 @@ input:focus {
   font-size: 28px;
 }
 .validation-errors ul {
-  color: #7c689b;
+  color: #f10b0b;
   padding: 15px 0 40px 10px;
 }
 

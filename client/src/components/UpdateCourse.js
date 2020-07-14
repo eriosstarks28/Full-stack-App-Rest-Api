@@ -171,7 +171,7 @@ export default class UpdateCourse extends Component {
     };
 
     context.data
-      .updateCourse(courseId, course, emailAddress, password) //update course using updateCourse from Data.js
+      .updateCourse(courseId, course, emailAddress, password) 
       .then((errors) => {
         if (errors.length) {
           this.setState({ errors });
