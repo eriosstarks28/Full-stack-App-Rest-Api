@@ -9,7 +9,6 @@ export default class Courses extends Component {
   
   componentDidMount() {
     const { context } = this.props;
-    console.log(context.data);
 
     context.data
       .getCourses()
