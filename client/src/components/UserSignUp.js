@@ -141,7 +141,7 @@ export default class UserSignUp extends Component {
   };
 
   cancel = (event) => {
-    EventSource.preventDefault();
+    event.preventDefault();
     this.props.history.push("/");
   };
 }

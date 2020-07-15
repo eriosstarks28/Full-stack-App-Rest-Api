@@ -34,64 +34,7 @@ export default class Data {
     const response = await this.api("/users", "POST", user);
     if (response.status === 201) {
       return [];
-    } else if (response.status === 400 || response.status === 405 ) {
-      return response.json().then((data) => {
-        return data.errors;
-      });
-    } else {
-      throw new Error();
-    }
-  }
-
-  async getCourses() {
-    const response = await this.api(`/courses`, "GET", null, false, null);
-    if (response.status ===  200 || 304) {
-      return response.json().then((data) => data);
-    } else if (response.status === 404) {
-      console.log(response);
-      return null;
-    } else {
-      throw new Error();
-    }
-  }
-
-  async getCourse(id) {
-    const response = await this.api(`/courses/${id}`, "GET", null, false, null);
-    if (response.status === 200 ||304) {
-      return response.json().then((data) => data);
-    } else if (response.status === 404) {
-      console.log(response.status);
-      console.log(response.statusText);
-      return null;
-    } else {
-      throw new Error();
-    }
-  }
-
-  async getUser(emailAddress, password) {
-    const response = await this.api(`/users`, 'GET', null, true, { emailAddress, password });
-    if (response.status === 200) {
-      return response.json().then(data => data);
-    }
-    else if (response.status === 401) {
-      return null;
-    }
-    else {
-      throw new Error();
-    }
-  }
-  
-  async deleteCourse(courseId, emailAddress, password) {
-    const response = await this.api(
-      `/courses/${courseId}`,
-      "DELETE",
-      null,
-      true,
-      { emailAddress, password }
-    );
-    if (response.status === 200 || 304) {
-      return [];
-    } else if (response.status === 403) {
+    } else if (response.status === 400 || response.status === 405) {
       return response.json().then((data) => {
         return data.errors;
       });
@@ -107,18 +50,19 @@ export default class Data {
     });
     if (response.status === 201) {
       return [];
-    } else if (response.status === 400) {
+    } else if (response.status === 400 || response.status === 405) {
       return response.json().then((data) => {
-        return data;
+       return data
       });
     } else {
       throw new Error();
     }
+ 
   }
 
-  async updateCourse(courseId, course, emailAddress, password) {
+  async updateCourse(id, course, emailAddress, password) {
     const response = await this.api(
-      `/courses/${courseId}`,
+      `/courses/${id}`,
       "PUT",
       course,
       true,
@@ -138,4 +82,72 @@ export default class Data {
       throw new Error();
     }
   }
+
+
+
+  
+
+  async getCourses() {
+    const response = await this.api(`/courses`, "GET", null, false, null);
+    if (response.status === 200 || 304) {
+      return response.json().then((data) => data);
+    } else if (response.status === 404) {
+      console.log(response);
+      return null;
+    } else {
+      throw new Error();
+    }
+  }
+
+  async getCourse(id) {
+    const response = await this.api(`/courses/${id}`, "GET", null, false, null);
+    if (response.status === 200 || 304) {
+      return response.json().then((data) => data);
+    } else if (response.status === 404) {
+      console.log(response.status);
+      console.log(response.statusText);
+      return null;
+    } else {
+      throw new Error();
+    }
+  }
+
+
+  async deleteCourse(courseId, emailAddress, password) {
+    const response = await this.api(
+      `/courses/${courseId}`,
+      "DELETE",
+      null,
+      true,
+      { emailAddress, password }
+    );
+    if (response.status === 200 || 304) {
+      return [];
+    } else if (response.status === 403) {
+      return response.json().then((data) => {
+        return data.errors;
+      });
+    } else {
+      throw new Error();
+    }
+  }
+
+  async getUser(emailAddress, password) {
+    const response = await this.api(`/users`, "GET", null, true, {
+      emailAddress,
+      password,
+    });
+    if (response.status === 200) {
+      return response.json().then((data) => data);
+    } else if (response.status === 401) {
+      return null;
+    } else {
+      throw new Error();
+    }
+  }
+
+
+  
+
+ 
 }

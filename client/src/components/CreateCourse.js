@@ -36,7 +36,7 @@ export default class CreateCourse extends Component {
             : 
             <hr />
           }
-          <form onSubmit={this.newCourse}>
+          <form onSubmit={this.submit}>
             <div className="grid-66">
               <div className="course--header">
                 <h4 className="course--label">Course</h4>
@@ -83,7 +83,7 @@ export default class CreateCourse extends Component {
 
 // when called provides the authenticated users email and password 
 
-  newCourse = (event) => {
+  submit = (event) => {
     event.preventDefault();
     const { context } = this.props;
     const { emailAddress } = context.authenticatedUser;
@@ -104,6 +104,7 @@ export default class CreateCourse extends Component {
       materialsNeeded,
     }
 //creates course passing course email and password perams 
+
     context.data.createCourse(course, emailAddress, password)
     .then(errors => {
       if (errors.errors) {

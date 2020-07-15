@@ -14,7 +14,8 @@ export default class Header extends React.PureComponent {
             {authUser ? (
               <React.Fragment>
                 <span>Welcome, {authUser.firstName}!</span>
-                
+                <Link className="Button" to="/">Home</Link>
+
                 <Link to="/signout">Sign Out</Link>
               </React.Fragment>
             ) : (
