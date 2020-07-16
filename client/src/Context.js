@@ -1,4 +1,3 @@
- 
 import React, { Component } from "react";
 import Cookies from "js-cookie";
 import Data from "./Data";
@@ -8,6 +7,7 @@ const Context = React.createContext();
 export class Provider extends Component {
   state = {
     authenticatedUser: Cookies.getJSON("authenticatedUser") || null,
+    
   };
 
   constructor() {
@@ -35,6 +35,7 @@ export class Provider extends Component {
   signIn = async (emailAddress, password) => {
     const user = await this.data.getUser(emailAddress, password); 
     if (user !== null) {
+      user.password = password
       this.setState(() => {
         return {
           authenticatedUser: user, 
@@ -66,4 +67,3 @@ export default function withContext(Component) {
     );
   }
 }
-

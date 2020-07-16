@@ -5,7 +5,10 @@ export default class Courses extends Component {
   
     state = {
       courses: [],
+ 
     };
+
+    //mount the component and get a full list of courses 
   
   componentDidMount() {
     const { context } = this.props;

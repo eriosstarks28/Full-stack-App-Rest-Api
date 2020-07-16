@@ -106,6 +106,7 @@ export default class UserSignUp extends Component {
   submit = (event) => {
     event.preventDefault();
     const { context } = this.props;
+    
 
     const {
       firstName,

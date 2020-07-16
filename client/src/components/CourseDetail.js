@@ -13,6 +13,7 @@ export default class CourseDetail extends Component {
     const { id } = this.props.match.params;
 
     //Grab each course using async function getCourse() and set the state
+    
     context.data.getCourse(id).then((res) => {
       this.setState({
         course: res,

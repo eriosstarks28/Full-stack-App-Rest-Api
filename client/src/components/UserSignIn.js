@@ -2,11 +2,14 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 
 export default class UserSignIn extends Component {
-  state = {
-    emailAddress: "",
-    password: "",
-    errors: [],
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      emailAddress: "",
+      password: "",
+      errors: [],
+    };
+  }
 
   render() {
     const { emailAddress, password, errors } = this.state;
@@ -72,19 +75,8 @@ export default class UserSignIn extends Component {
     );
   }
 
-  change = (event) => {
-    const name = event.target.name;
-    const value = event.target.value;
-
-    this.setState(() => {
-      return {
-        [name]: value,
-      };
-    });
-  };
-
   submit = (event) => {
-    event.preventDefault()
+    event.preventDefault();
     const { context } = this.props;
     const { from } = this.props.location.state || {
       from: { pathname: "/" },
@@ -94,6 +86,7 @@ export default class UserSignIn extends Component {
     context.actions
       .signIn(emailAddress, password)
       .then((user) => {
+        console.log(password);
         if (user === null) {
           this.setState(() => {
             return { errors: ["Sign-in was unsuccessful"] };
@@ -106,6 +99,17 @@ export default class UserSignIn extends Component {
         console.error(error);
         this.props.history.push("/error");
       });
+  };
+
+  change = (event) => {
+    const name = event.target.name;
+    const value = event.target.value;
+
+    this.setState(() => {
+      return {
+        [name]: value,
+      };
+    });
   };
 
   cancel = (event) => {
