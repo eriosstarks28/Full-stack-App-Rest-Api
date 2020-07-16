@@ -7,7 +7,8 @@ const Course = require("../models").Course;
 const User = require("../models").User;
 
 
-//User validation 
+
+//User validation
 
 const userValidation = [
   check("firstName")
@@ -30,7 +31,7 @@ const userValidation = [
     ),
 ];
 
-//course validation 
+//course validation
 
 const courseValidation = [
   check("title")
@@ -40,7 +41,6 @@ const courseValidation = [
     .exists({ checkNull: true, checkFalsy: true })
     .withMessage('Please provide a value for "description"'),
 ];
-
 
 function asyncHandler(cb) {
   return async (req, res, next) => {
@@ -52,6 +52,9 @@ function asyncHandler(cb) {
   };
 }
 //handle validation errors
+
+
+
 function validationErrors(req, res) {
   const errors = validationResult(req);
 
@@ -66,23 +69,28 @@ function validationErrors(req, res) {
   }
 }
 
-
 //Basic user authentication
 
 const authenticateUser = async (req, res, next) => {
   let message = null;
-  const users = await User.findAll();
+  
   const credentials = auth(req);
+  console.log(credentials);
 
   if (credentials) {
-    const userData = users.find((u) => u.emailAddress === credentials.name);
-    console.log(userData);
+  
+    const users = await User.findAll();
+    const user= users.find((u) => u.emailAddress === credentials.name);
+    console.log(user);
 
-    if (userData) {
-      const user = userData.dataValues;
-      const authenticated = bcryptjs.compare(credentials.pass, user.password);
+    if (user) {
+      const authenticated = bcryptjs.compareSync(
+        credentials.pass,
+        user.password
+      );
 
       if (authenticated) {
+        console.log(`Authentication successful for ${user.emailAddress}`);
         req.currentUser = user;
       } else {
         message = `Authentication failed for user: ${user.emailAddress}`;
@@ -96,68 +104,75 @@ const authenticateUser = async (req, res, next) => {
 
   if (message) {
     console.warn(message);
-    res.status(401).json({ errors: [message] });
+    res.status(401).json({ messgae: "Access Denied" });
   } else {
     next();
   }
 };
 
 //Get current user
+
+
 router.get("/users", authenticateUser, (req, res) => {
   const user = req.currentUser;
 
   res.status(200).json({
     id: user.id,
     firstName: user.firstName,
-    lastName: user.lastName,
+    lastName:user.lastName,
     emailAddress: user.emailAddress,
+    password: user.password,
   });
 });
 
-
-//Create & validate new user 
+//Create & validate new user
 
 router.post(
   "/users",
+  
   userValidation,
   asyncHandler(async (req, res) => {
-    if (!validationErrors(req, res)) {
-      const existingUser = await User.findOne({
-        where: { emailAddress: req.body.emailAddress },
-      });
+    try {
+      const newUser = await req.body;
+      let existingUser;
 
-      if (existingUser) {
-        res.status(400).json({ error: '"emailAddress" is already in use' });
+      if (newUser.emailAddress) {
+        existingUser = await User.findOne({
+          where: {
+            emailAddress: newUser.emailAddress,
+          },
+        });
       }
 
-      const user = req.body;
-
-      user.password = bcryptjs.hashSync(user.password);
-
-      try {
-        newUser = await User.create(user);
-      } catch (error) {
-        if (error.name === "SequelizeValidationError") {
-          
-          res.status(400).json({ error: error.msg });
-        } else {
-          res.status(500).json({ error: error.msg }); 
+      if (!existingUser) {
+        // Hash the new user's password using bcryptjs
+        if (newUser.password) {
+          newUser.password = bcryptjs.hashSync(newUser.password);
         }
+
+        // Add new user with hashed password to database
+        await User.create({
+          firstName: newUser.firstName,
+          lastName: newUser.lastName,
+          emailAddress: newUser.emailAddress,
+          password: newUser.password,
+        });
+
+        //Set response status to 201 and end response
+        res.status(201).location("/").end();
+      } else {
+        res.status(405).json({
+          message: `Something Went Wrong`,
+          errors: [`The email address ${newUser.emailAddress} already exists.`],
+        });
       }
-
-      
-
-      
-
-      res.header("Location", "/");
-
-      
-      return res.status(201).end();
+    } catch (err) {
+      next(err);
     }
   })
 );
 
-//Get list of courses 
+//Get list of courses
 
 router.get(
   "/courses",
@@ -186,7 +201,7 @@ router.get(
   })
 );
 
-//Create authenticate & validate new course 
+//Create authenticate & validate new course
 
 router.post(
   "/courses",
@@ -215,13 +230,11 @@ router.post(
   })
 );
 
-
 //Get a course based on its ID
 
 router.get(
   "/courses/:id",
   asyncHandler(async (req, res) => {
-    
     const query = {
       where: { id: req.params.id },
       include: [
@@ -243,7 +256,7 @@ router.get(
   })
 );
 
-//Edit existing course 
+//Edit existing course
 
 router.put(
   "/courses/:id",
@@ -284,15 +297,13 @@ router.put(
   })
 );
 
-//Delete a course 
+//Delete a course
 
 router.delete(
   "/courses/:id",
   authenticateUser,
   asyncHandler(async (req, res) => {
-    
     try {
-      
       let course = await Course.findByPk(parseInt(req.params.id));
 
       if (!course) {
@@ -301,17 +312,15 @@ router.delete(
           .json({ error: "there is no existing course with that ID" });
       }
 
-      
       if (course.userId != req.currentUser.id) {
         res
           .status(403)
           .json({ error: "authorized user does not own this course" });
       }
 
-      
       await Course.destroy({ where: { id: parseInt(req.params.id) } });
     } catch (error) {
-      res.status(500).json({ error: error.msg }); 
+      res.status(500).json({ error: error.msg });
     }
 
     return res.status(204).end();
